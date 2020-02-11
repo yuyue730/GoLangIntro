@@ -23,7 +23,7 @@ func grade(score int) string {
 }
 
 func main() {
-	const filename = "file.txt"
+	const filename = "../file.txt"
 	fmt.Println("Go language If and Switch branch grammar")
 	if contents, err := ioutil.ReadFile(filename); err != nil {
 		fmt.Println(err)
