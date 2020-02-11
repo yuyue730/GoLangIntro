@@ -44,6 +44,10 @@ func sum(nums ...int) int {
 	return result
 }
 
+func swap(a, b *int) {
+	*b, *a = *a, *b
+}
+
 func main() {
 	fmt.Println("Go language Function grammar")
 
@@ -63,4 +67,9 @@ func main() {
 		}, 3, 4))
 
 	fmt.Printf("Sum 1 through 5 = [%d]\n", sum(1, 2, 3, 4, 5))
+
+	a, b := 3, 4
+	swap(&a, &b)
+	fmt.Printf("After swap a=%d, b=%d", a, b)
+
 }
