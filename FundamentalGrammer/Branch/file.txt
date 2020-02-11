@@ -1,0 +1,5 @@
+Install the Go tools
+Test your installation
+Installing extra Go versions
+Uninstalling Go
+Getting help
