@@ -23,3 +23,7 @@
     Yus-MacBook-Pro:GoLangIntro yyu196$ go run FundamentalGrammer/basic.go 
     Hello World
     ```
+  * Setup proxy in Mainland China. Go to https://github.com/goproxy/goproxy.cn/blob/master/README.zh-CN.md. Default proxy is `GOPROXY="https://proxy.golang.org,direct"`. Type in 
+    ```
+    go env -w GOPROXY=https://goproxy.cn,direct
+    ```
