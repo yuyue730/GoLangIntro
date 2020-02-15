@@ -33,9 +33,17 @@ func main() {
 	root.Right.Left.SetValue(4)
 	fmt.Printf("1. In-order traversal = ")
 	root.Traverse()
-	fmt.Println("\n")
+	fmt.Println()
+
 	fmt.Printf("2. Post-order traverse in entry main/package = ")
 	myRoot := myTreeNode{&root}
 	myRoot.postTraverse()
 	fmt.Println("\n")
+
+	fmt.Printf("3. Count number of nodes in the tree")
+	nodeCount := 0
+	root.TraverseFunc(func(node *tree.Node) {
+		nodeCount++
+	})
+	fmt.Printf("Number of nodes = %d\n", nodeCount)
 }
