@@ -4,10 +4,11 @@ import (
 	"fmt"
 )
 
+var lastIndexMap = make([]int, 0xffff)
+
 func lengthOfNonRepeatingSubstr(s string) int {
 	curStart := 0
 	result := 0
-	lastIndexMap := make([]int, 0xffff)
 
 	for i := range lastIndexMap {
 		lastIndexMap[i] = -1
