@@ -47,9 +47,13 @@ func euler() {
 
 func triangle() {
 	var a, b int = 3, 4
+	fmt.Printf("7. Type conversion result c=%d", calculateTriangle(a, b))
+}
+
+func calculateTriangle(a, b int) int {
 	var c int
 	c = int(math.Sqrt(float64(a*a + b*b)))
-	fmt.Printf("7. Type conversion result c=%d", c)
+	return c
 }
 
 func consts() {
