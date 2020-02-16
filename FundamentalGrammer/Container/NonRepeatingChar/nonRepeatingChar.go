@@ -7,10 +7,14 @@ import (
 func lengthOfNonRepeatingSubstr(s string) int {
 	curStart := 0
 	result := 0
-	lastIndexMap := make(map[byte]int)
+	lastIndexMap := make([]int, 0xffff)
 
-	for i, ch := range []byte(s) {
-		if lastIdx, rc := lastIndexMap[ch]; rc && lastIdx >= curStart {
+	for i := range lastIndexMap {
+		lastIndexMap[i] = -1
+	}
+
+	for i, ch := range []rune(s) {
+		if lastIdx := lastIndexMap[ch]; lastIdx != -1 && lastIdx >= curStart {
 			curStart = lastIdx + 1
 		}
 		if i-curStart+1 > result {
