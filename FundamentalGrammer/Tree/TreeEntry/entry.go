@@ -46,4 +46,15 @@ func main() {
 		nodeCount++
 	})
 	fmt.Printf("Number of nodes = %d\n", nodeCount)
+
+	fmt.Println("4. Traverse Binary Tree with Channel and get the maxNodeValue",
+		"from all values in the channel `c`")
+	c := root.TraverseWithChannel()
+	maxNode := 0
+	for node := range c {
+		if node.Value > maxNode {
+			maxNode = node.Value
+		}
+	}
+	fmt.Println("Max Node Value:", maxNode)
 }
