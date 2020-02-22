@@ -27,3 +27,5 @@
     ```
     go env -w GOPROXY=https://goproxy.cn,direct
     ```
+  * Install gin framework by entering command `go get -u github.com/gin-gonic/gin`.
+  * Install zap library entering command `go get -u go.uber.org/zap`
