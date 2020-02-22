@@ -4,6 +4,7 @@ import (
 	"GoLangIntro/FundamentalGrammer/ErrorHandling/FileListingServer/filelisting"
 	"log"
 	"net/http"
+	_ "net/http/pprof" // Go to localhost:8888/debug/pprof to see debugging information
 	"os"
 )
 
