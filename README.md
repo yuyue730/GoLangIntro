@@ -29,3 +29,13 @@
     ```
   * Install gin framework by entering command `go get -u github.com/gin-gonic/gin`.
   * Install zap library entering command `go get -u go.uber.org/zap`
+
+
+## Project: Implement a `go` web crawler on an car information website
+### Milestone 1: Single Thread web crawler
+  * Create a `/SingleThreadCrawler` directory to store source codes.
+  * Get carlist from `http://newcar.xcar.com.cn/`. The Kanji is in a wrong encoding way, we need to do conversion.
+    * Install Go Text library by entering `go get -u golang.org/x/text` in the command line.
+    * Call `transform.NewReader` on the original response body to Convert its decoder from `GBK` to `UTF-8`.
+    * For code scalable reason, we also need to install Go Net library by entering `go get -u golang.org/x/net`. This library offers a functionality to detect the decoder from an html text.
+    * Create a new `determineEncoding` that takes in an response body `io.Reading` and return `encode.Encoding` that includes the decoder format.
