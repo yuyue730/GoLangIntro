@@ -9,6 +9,7 @@ var host = "http://newcar.xcar.com.cn"
 var carModelRe = `<a href="(/\d+/)" target="_blank" class="list_img">`
 
 func ParseCarList(contents []byte) engine.ParseResult {
+	// Process already existed car models on main page
 	reModel := regexp.MustCompile(carModelRe)
 	matchesModel := reModel.FindAllSubmatch(contents, -1)
 

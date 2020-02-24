@@ -3,7 +3,6 @@ package fetcher
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -30,14 +29,15 @@ func Fetch(url string) ([]byte, error) {
 
 	// Convert `resp.Body` from GBK format to UTF-8 Format so that the Kanji
 	// character can be idenfied by calling `ioutil.ReadAll` next
-	e := determineEncoding(resp.Body)
+	reader := bufio.NewReader(resp.Body)
+	e := determineEncoding(reader)
 	utf8Reader := transform.NewReader(resp.Body, e.NewDecoder())
 	return ioutil.ReadAll(utf8Reader)
 }
 
 // Input an io.Reader representing original html and return encoding way of
 // the input io.Reader
-func determineEncoding(r io.Reader) encoding.Encoding {
+func determineEncoding(r *bufio.Reader) encoding.Encoding {
 	bytes, err := bufio.NewReader(r).Peek(1024)
 	if err != nil {
 		log.Printf("Fetch error: %v", err)

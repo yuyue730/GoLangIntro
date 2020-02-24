@@ -59,4 +59,4 @@
     ```
   * `main()` in Main.go passes `http://newcar.xcar.com.cn/` into the engine's `Run()` to start the crawler application. 
     * Engine request the url and pass the response body to parser.
-    * Parser analyze the body text and returns a list of Urls representing all cars found in the original HTML.
+    * Parser analyze the body text and returns a list of Urls representing cars models found in the original HTML.
