@@ -24,7 +24,7 @@ func ParseCarList(contents []byte) engine.ParseResult {
 		result.Requests = append(result.Requests, engine.Request{
 			Url: host + string(m[1]),
 			// This will be `http://newcar.xcar.com.cn/[id]`
-			ParserFunc: engine.NilParser,
+			ParserFunc: ParseCarModel,
 		})
 	}
 

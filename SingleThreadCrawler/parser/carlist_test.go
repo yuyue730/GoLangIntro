@@ -30,7 +30,7 @@ func TestParseCarList(t *testing.T) {
 	for i, url := range expectedModelUrls {
 		if results.Requests[i].Url != url {
 			t.Errorf("model result index %d url should have %s, but had %s", i,
-				expectedModelUrls[i], url)
+				results.Requests[i].Url, url)
 		}
 	}
 
