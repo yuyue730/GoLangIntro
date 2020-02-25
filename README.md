@@ -57,6 +57,11 @@
                      * Task Queue *
                      **************
     ```
-  * `main()` in Main.go passes `http://newcar.xcar.com.cn/` into the engine's `Run()` to start the crawler application. 
-    * Engine request the url and pass the response body to parser.
-    * Parser analyze the body text and returns a list of Urls representing cars models found in the original HTML.
+  * `main()` in Main.go passes `http://newcar.xcar.com.cn/` into the engine's `Run()` to start the crawler application. Logic of crawling is shown in the diagram below
+    ```
+             -------------| 
+             |            | OtherListUrls
+    *****************     |         ******************                  ***************
+    * Car List Page *---------------* Car Model Page *------------------* Car Details *
+    *****************  ModelUrls->  ****************** CarDetailsUrls-> ***************
+    ```
