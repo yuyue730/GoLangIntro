@@ -34,34 +34,16 @@
 ## Project: Implement a `go` web crawler on an car information website
 ### Milestone 1: Single Thread web crawler
   * Create a `/SingleThreadCrawler` directory to store source codes.
-  * Fetch and decode HTML from `http://newcar.xcar.com.cn/`. 
+  
+  * Diagrams of the system
+
+    <img src="./Images/OverviewDiagram.png" height=70% width=70%>
+
+  * Fetcher implemetation details
     * Install Go Text library by entering `go get -u golang.org/x/text` in the command line.
     * The Kanji is in a wrong encoding way, we need to do conversion. Call `transform.NewReader` on the original response body to Convert its decoder from `GBK` to `UTF-8`.
     * For code scalable reason, we also need to install Go Net library by entering `go get -u golang.org/x/net`. This library offers a functionality to detect the decoder from an html text.
     * Create a new `determineEncoding` that takes in an response body `io.Reading` and return `encode.Encoding` that includes the decoder format.
-  * Go over html text and extract all Car model ids to append to `http://newcar.xcar.com.cn/` as the next url
-  * Diagrams of the system
-    ```
-                       **********
-                       * Parser *
-                       **********
-                            |
-             Text -> Parser | Requests, Items -> Engine
-                            |
-    ******** request-> **********  URL-> ***********
-    * Seed *-----------* Engine *--------* Fetcher *
-    ********           ********** <-Text ***********
-                            |
-                            |
-                     **************
-                     * Task Queue *
-                     **************
-    ```
-  * `main()` in Main.go passes `http://newcar.xcar.com.cn/` into the engine's `Run()` to start the crawler application. Logic of crawling is shown in the diagram below
-    ```
-             -------------| 
-             |            | OtherListUrls
-    *****************     |         ******************                  ***************
-    * Car List Page *---------------* Car Model Page *------------------* Car Details *
-    *****************  ModelUrls->  ****************** CarDetailsUrls-> ***************
-    ```
+  * Parser Implementation Diagram
+  
+    <img src="./Images/ParserLogic.png" height=70% width=70%>
