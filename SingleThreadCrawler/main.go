@@ -8,7 +8,8 @@ import (
 func main() {
 	engine.Run(
 		engine.Request{
-			Url:        "http://newcar.xcar.com.cn/",
-			ParserFunc: parser.ParseCarList,
+			Url: "http://newcar.xcar.com.cn/",
+			Parser: engine.NewFuncParser(
+				parser.ParseCarList, "ParseCarList"),
 		})
 }

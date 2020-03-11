@@ -31,14 +31,14 @@ func Fetch(url string) ([]byte, error) {
 	// character can be idenfied by calling `ioutil.ReadAll` next
 	reader := bufio.NewReader(resp.Body)
 	e := determineEncoding(reader)
-	utf8Reader := transform.NewReader(resp.Body, e.NewDecoder())
+	utf8Reader := transform.NewReader(reader, e.NewDecoder())
 	return ioutil.ReadAll(utf8Reader)
 }
 
 // Input an io.Reader representing original html and return encoding way of
 // the input io.Reader
 func determineEncoding(r *bufio.Reader) encoding.Encoding {
-	bytes, err := bufio.NewReader(r).Peek(1024)
+	bytes, err := r.Peek(1024)
 	if err != nil {
 		log.Printf("Fetch error: %v", err)
 		return unicode.UTF8

@@ -13,7 +13,7 @@ var otherCarListRegex = `(//newcar.xcar.com.cn/car/[\d+-]+\d+)/`
 // parts of http://newcar.xcar.com.cn.
 // Part I: Car Model already show on this page, which will match `carModelRegex`
 // Part II: Additional Car List, which will match `otherCarListRegex`
-func ParseCarList(contents []byte) engine.ParseResult {
+func ParseCarList(contents []byte, _ string) engine.ParseResult {
 	// Part I: Car Model already show on this page, which will match `carModelRegex`
 	regexpPtrModel := regexp.MustCompile(carModelRegex)
 	matchesModel := regexpPtrModel.FindAllSubmatch(contents, -1)
@@ -24,7 +24,7 @@ func ParseCarList(contents []byte) engine.ParseResult {
 		result.Requests = append(result.Requests, engine.Request{
 			Url: host + string(m[1]),
 			// This will be `http://newcar.xcar.com.cn/[id]`
-			ParserFunc: ParseCarModel,
+			Parser: engine.NewFuncParser(ParseCarModel, "ParseCarModel"),
 		})
 	}
 
@@ -36,7 +36,7 @@ func ParseCarList(contents []byte) engine.ParseResult {
 		result.Requests = append(result.Requests, engine.Request{
 			Url: "http:" + string(m[1]),
 			// This will be something like `http://newcar.xcar.com.cn/0-1-2-3-4-5`
-			ParserFunc: ParseCarList,
+			Parser: engine.NewFuncParser(ParseCarList, "ParseCarList"),
 		})
 	}
 

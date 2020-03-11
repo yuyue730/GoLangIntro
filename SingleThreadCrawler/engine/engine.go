@@ -26,12 +26,16 @@ func Run(seeds ...Request) {
 			continue
 		}
 
-		parseResult := r.ParserFunc(body)
+		parseResult := r.Parser.Parse(body, r.Url)
 		requests = append(requests, parseResult.Requests...)
 
 		log.Printf("Size of requests = %d", len(parseResult.Requests))
 		for _, req := range parseResult.Requests {
 			log.Printf("Got new Url to go deep into %s", req.Url)
+		}
+
+		for _, item := range parseResult.Items {
+			log.Printf("Got new Item %v", item)
 		}
 	}
 }

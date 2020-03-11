@@ -14,7 +14,7 @@ func TestParseCarModel(t *testing.T) {
 		panic(err)
 	}
 
-	results := ParseCarModel(contents)
+	results := ParseCarModel(contents, "")
 
 	const resultURLSize = 5
 	if len(results.Requests) != resultURLSize {

@@ -13,7 +13,7 @@ func TestParseCarList(t *testing.T) {
 		panic(err)
 	}
 
-	results := ParseCarList(contents)
+	results := ParseCarList(contents, "")
 
 	const resultUrlSize = 89
 	if len(results.Requests) != resultUrlSize {
