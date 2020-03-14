@@ -3,10 +3,15 @@ package main
 import (
 	"GoLangIntro/SingleThreadCrawler/engine"
 	"GoLangIntro/SingleThreadCrawler/parser"
+	"GoLangIntro/SingleThreadCrawler/scheduler"
 )
 
 func main() {
-	e := engine.SimpleEngine{}
+	// e := engine.SimpleEngine{}
+	e := engine.ConcurrentEngine{
+		Scheduler:   &scheduler.SimpleScheduler{},
+		WorkerCount: 100,
+	}
 	e.Run(
 		engine.Request{
 			Url: "http://newcar.xcar.com.cn/",

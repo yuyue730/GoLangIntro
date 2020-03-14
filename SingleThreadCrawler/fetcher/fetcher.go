@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/encoding"
@@ -13,10 +14,13 @@ import (
 	"golang.org/x/text/transform"
 )
 
+var rateLimiter = time.Tick(10 * time.Millisecond)
+
 // Fetch html text from url
 // @input url string of the Url to get HTML Text
 // @Return byte slice of the content and error if something goes wrong
 func Fetch(url string) ([]byte, error) {
+	<-rateLimiter
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err

@@ -2,6 +2,7 @@ package parser
 
 import (
 	"GoLangIntro/SingleThreadCrawler/engine"
+	"log"
 	"regexp"
 )
 
@@ -21,6 +22,7 @@ func ParseCarList(contents []byte, _ string) engine.ParseResult {
 	result := engine.ParseResult{}
 
 	for _, m := range matchesModel {
+		log.Printf("Add to requests %v", host+string(m[1]))
 		result.Requests = append(result.Requests, engine.Request{
 			Url: host + string(m[1]),
 			// This will be `http://newcar.xcar.com.cn/[id]`
@@ -33,6 +35,7 @@ func ParseCarList(contents []byte, _ string) engine.ParseResult {
 	matchesOtherList := regexpPtrOtherList.FindAllSubmatch(contents, -1)
 
 	for _, m := range matchesOtherList {
+		log.Printf("Add to requests %v", "http:"+string(m[1]))
 		result.Requests = append(result.Requests, engine.Request{
 			Url: "http:" + string(m[1]),
 			// This will be something like `http://newcar.xcar.com.cn/0-1-2-3-4-5`
