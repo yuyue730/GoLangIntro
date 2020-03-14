@@ -20,13 +20,10 @@ func Run(seeds ...Request) {
 			continue
 		}
 
-		body, err := fetcher.Fetch(r.Url)
+		parseResult, err := worker(r)
 		if err != nil {
-			log.Printf("Fetcher error fetching url %s: %v", r.Url, err)
 			continue
 		}
-
-		parseResult := r.Parser.Parse(body, r.Url)
 		requests = append(requests, parseResult.Requests...)
 
 		log.Printf("Size of requests = %d", len(parseResult.Requests))
@@ -38,6 +35,16 @@ func Run(seeds ...Request) {
 			log.Printf("Got new Item %v", item)
 		}
 	}
+}
+
+func worker(r Request) (ParseResult, error) {
+	body, err := fetcher.Fetch(r.Url)
+	if err != nil {
+		log.Printf("Fetcher error fetching url %s: %v", r.Url, err)
+		return ParseResult{}, err
+	}
+
+	return r.Parser.Parse(body, r.Url), nil
 }
 
 var visitedUrls = make(map[string]bool)

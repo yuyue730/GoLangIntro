@@ -49,3 +49,10 @@
     <img src="./Images/ParserLogic.png" height=70% width=70%>
 
   * Wrap `parser` functionality as a struct in `engine/types`. Create the struct with parse function object and the name of the function. Expose the method to parse contents with Items and more urls in the parse function return.
+
+### Milestone 2: Concurrent web crawler
+  * Merge functionality of Fetcher and Parser into a worker function in `engine`. 
+  * For concurrent web crawler, we will simplement a scheduler that schedule `worker`s in the `engine`'s `Run` function.
+  * `engine` will send `Request`s to scheduler and scheduler will coordinate `worker`s to send request and parse information. Please refer to the following diagram.
+
+    <img src="./Images/ConcurrentCrawlerArchitecture.png" height=60% width=60%>
