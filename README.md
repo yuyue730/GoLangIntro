@@ -47,3 +47,5 @@
   * Parser Implementation Diagram
   
     <img src="./Images/ParserLogic.png" height=70% width=70%>
+
+  * Wrap `parser` functionality as a struct in `engine/types`. Create the struct with parse function object and the name of the function. Expose the method to parse contents with Items and more urls in the parse function return.
