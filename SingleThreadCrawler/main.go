@@ -6,7 +6,8 @@ import (
 )
 
 func main() {
-	engine.Run(
+	e := engine.SimpleEngine{}
+	e.Run(
 		engine.Request{
 			Url: "http://newcar.xcar.com.cn/",
 			Parser: engine.NewFuncParser(
