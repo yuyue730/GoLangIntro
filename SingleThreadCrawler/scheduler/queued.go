@@ -2,6 +2,7 @@ package scheduler
 
 import "GoLangIntro/SingleThreadCrawler/engine"
 
+// Queued Scheduler has a channel of engine and a channel of channel of request
 type QueuedScheduler struct {
 	requestChan chan engine.Request
 	workerChan  chan chan engine.Request
@@ -19,6 +20,13 @@ func (s *QueuedScheduler) ConfigureMasterWorkerChan(c chan engine.Request) {
 
 }
 
+// When QueuedScheduler is run, it will run into two scenarios
+// 1. When a new worker or request comes it, it will add that worker or request
+// item at the back of the queue.
+// 2. When we need the worker to work on the request, we pop both front item from
+// Request and Worker Queue and feed request item into worker item which is a
+// Channel of request, in `engine/worker`, the worker function is going to fecth
+// and parse the request.
 func (s *QueuedScheduler) Run() {
 	s.workerChan = make(chan chan engine.Request)
 	s.requestChan = make(chan engine.Request)

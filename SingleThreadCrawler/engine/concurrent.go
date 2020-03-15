@@ -7,6 +7,7 @@ import "log"
 type ConcurrentEngine struct {
 	Scheduler   Scheduler
 	WorkerCount int
+	ItemsCount  int
 }
 
 type Scheduler interface {
@@ -17,7 +18,8 @@ type Scheduler interface {
 }
 
 func (e *ConcurrentEngine) Run(seeds ...Request) {
-	// in := make(chan Request) Only need for Simple Scheduler
+	// in := make(chan Request) Only need for Simple Scheduler, the in channel
+	// will be declared in `createWorker`
 	out := make(chan ParseResult)
 
 	// Pushing the in channel as the master work channel
@@ -34,9 +36,16 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 	}
 
 	for {
+		// Listen to what createWorker function feed into out channel and keep
+		// track of these ParseResults
 		result := <-out
 		for _, item := range result.Items {
-			log.Printf("Got Items: %v", item)
+			e.ItemsCount++
+			log.Printf("Got Items: No. %d, Content %v", e.ItemsCount, item)
+		}
+
+		if e.ItemsCount >= 1000 {
+			break
 		}
 
 		for _, request := range result.Requests {
@@ -60,6 +69,9 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 // 	}()
 // }
 
+// Declare in channel Request and feed it to QueuedScheduler struct, in the
+// goroutine, keeps reading from in channel and letring worker perform on the
+// in channel request, feed the result to the out channel
 func createWorker(out chan ParseResult, s Scheduler) {
 	in := make(chan Request)
 	go func() {

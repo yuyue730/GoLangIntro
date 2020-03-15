@@ -61,3 +61,6 @@
 
     <img src="./Images/SimpleScheduler.png" height=40% width=40%>
 
+  * A Queued Scheduler set up two queues one for worker and the other for request. When a new worker or request comes it, it will add that worker or request item at the back of the queue. When we need the worker to work on the request, we pop both front item from Request and Worker Queue and feed request item into worker item which is a Channel of request, in `engine/worker`, the worker function is going to fecth and parse the request. Please refer to the diagram below. 
+  
+    <img src="./Images/QueuedScheduler.png" height=60% width=60%>
