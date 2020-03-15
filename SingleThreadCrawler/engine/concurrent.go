@@ -12,17 +12,21 @@ type ConcurrentEngine struct {
 type Scheduler interface {
 	Submit(Request)
 	ConfigureMasterWorkerChan(chan Request)
+	WorkerReady(chan Request)
+	Run()
 }
 
 func (e *ConcurrentEngine) Run(seeds ...Request) {
-	in := make(chan Request)
+	// in := make(chan Request) Only need for Simple Scheduler
 	out := make(chan ParseResult)
 
 	// Pushing the in channel as the master work channel
-	e.Scheduler.ConfigureMasterWorkerChan(in)
+	// e.Scheduler.ConfigureMasterWorkerChan(in) Only need for Simple Scheduler
+	e.Scheduler.Run()
 
 	for i := 0; i < e.WorkerCount; i++ {
-		createWorker(in, out)
+		// createWorker(in, out) Only need for Simple Scheduler
+		createWorker(out, e.Scheduler)
 	}
 
 	for _, r := range seeds {
@@ -42,10 +46,25 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 }
 
 // Read `in` channel into `request`, call `worker` on it and push result into
-// the `out` channel
-func createWorker(in chan Request, out chan ParseResult) {
+// the `out` channel Only need for Simple Scheduler
+// func createWorker(in chan Request, out chan ParseResult) {
+// 	go func() {
+// 		for {
+// 			request := <-in
+// 			result, err := worker(request)
+// 			if err != nil {
+// 				continue
+// 			}
+// 			out <- result
+// 		}
+// 	}()
+// }
+
+func createWorker(out chan ParseResult, s Scheduler) {
+	in := make(chan Request)
 	go func() {
 		for {
+			s.WorkerReady(in)
 			request := <-in
 			result, err := worker(request)
 			if err != nil {

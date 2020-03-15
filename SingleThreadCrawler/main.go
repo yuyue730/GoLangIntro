@@ -10,7 +10,7 @@ func main() {
 	// Please use engine.SimpleEngine{} for single threaded web crawler
 	// e := engine.SimpleEngine{}
 	e := engine.ConcurrentEngine{
-		Scheduler:   &scheduler.SimpleScheduler{},
+		Scheduler:   &scheduler.QueuedScheduler{},
 		WorkerCount: 100,
 	}
 	e.Run(
