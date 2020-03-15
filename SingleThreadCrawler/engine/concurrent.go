@@ -2,6 +2,8 @@ package engine
 
 import "log"
 
+// Struct that defines how concurrent engine works. It takes in a struct under
+// scheduler interface and number of worker needed.
 type ConcurrentEngine struct {
 	Scheduler   Scheduler
 	WorkerCount int
@@ -16,6 +18,7 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 	in := make(chan Request)
 	out := make(chan ParseResult)
 
+	// Pushing the in channel as the master work channel
 	e.Scheduler.ConfigureMasterWorkerChan(in)
 
 	for i := 0; i < e.WorkerCount; i++ {
@@ -38,6 +41,8 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 	}
 }
 
+// Read `in` channel into `request`, call `worker` on it and push result into
+// the `out` channel
 func createWorker(in chan Request, out chan ParseResult) {
 	go func() {
 		for {

@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	// Please use engine.SimpleEngine{} for single threaded web crawler
 	// e := engine.SimpleEngine{}
 	e := engine.ConcurrentEngine{
 		Scheduler:   &scheduler.SimpleScheduler{},

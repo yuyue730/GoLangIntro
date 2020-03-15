@@ -53,6 +53,11 @@
 ### Milestone 2: Concurrent web crawler
   * Merge functionality of Fetcher and Parser into a worker function in `engine`. 
   * For concurrent web crawler, we will simplement a scheduler that schedule `worker`s in the `engine`'s `Run` function.
-  * `engine` will send `Request`s to scheduler and scheduler will coordinate `worker`s to send request and parse information. Please refer to the following diagram.
+  * `engine` will send `Request`s to scheduler and scheduler will coordinate `worker`s to send request and parse information. Please refer to the diagram below.
 
-    <img src="./Images/ConcurrentCrawlerArchitecture.png" height=60% width=60%>
+    <img src="./Images/ConcurrentCrawlerArchitecture.png" height=40% width=40%>
+
+  * A simple Scheduler will create a `goroutine` for each Request and have a single worker to act on all `goroutine`s. Please refer to the diagram below.
+
+    <img src="./Images/SimpleScheduler.png" height=40% width=40%>
+
