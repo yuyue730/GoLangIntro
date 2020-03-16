@@ -1,13 +1,12 @@
 package engine
 
-import "log"
-
 // Struct that defines how concurrent engine works. It takes in a struct under
 // scheduler interface and number of worker needed.
 type ConcurrentEngine struct {
 	Scheduler   Scheduler
 	WorkerCount int
 	ItemsCount  int
+	ItemChan    chan interface{}
 }
 
 type Scheduler interface {
@@ -48,11 +47,9 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 		result := <-out
 		for _, item := range result.Items {
 			e.ItemsCount++
-			log.Printf("Got Items: No. %d, Content %v", e.ItemsCount, item)
-		}
-
-		if e.ItemsCount >= 1000 {
-			break
+			go func() {
+				e.ItemChan <- item
+			}()
 		}
 
 		for _, request := range result.Requests {
