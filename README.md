@@ -81,10 +81,13 @@
   
     <img src="./Images/QueuedScheduler.png" height=60% width=60%>
 
-### Milestone 3: Save crawler result and display
+### Milestone 3: Save crawler result and UI display
   * The following diagram illustrate how `ItemSaver` works in the project architecture.
 
     <img src="./Images/ItemSaverArchitecture.png" height=60% width=60%>
 
   * Install Elastic Search client library, go to `https://github.com/olivere/elastic`. Type in `go get github.com/olivere/elastic/v7` to install Elastic Search 7's client library.
   * Create a `save()` function in `persist/itemsaver.go` to save crawled items into Elastic Search system.
+  * Architecture for UI Display
+
+    <img src="./Images/UIDataFlow.png" height=50% width=50%>
