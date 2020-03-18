@@ -30,6 +30,22 @@
   * Install gin framework by entering command `go get -u github.com/gin-gonic/gin`.
   * Install zap library entering command `go get -u go.uber.org/zap`
 
+## Install ElasticSearch inside a Docker
+  * Docker is written in `Go` programming language, directly go to `https://hub.docker.com/editions/community/docker-ce-desktop-mac` to download stable version binary of the Docker software.
+  * In mainland China, we need to use a new registry to pull `Docker`'s mirror. In `Docker` desktop -> Preferences setup, go to docker engine tab, and add `"registry-mirrors": ["http://f1361db2.m.daocloud.io"]` as a new item in the JSON object. When running `docker info`, the new registry mirror is expected to be seen. Please go to `https://www.daocloud.io/mirror#accelarator-doc` for more details.
+  * Install Elastic Search in `Docker` by typing in the following command in Terminal.
+
+    ```
+    docker pull docker.elastic.co/elasticsearch/elasticsearch:7.6.1
+    ``` 
+
+  * Run Elastic Search in Single Node mode by typing in the following command in Terminal.
+  
+    ```
+    docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.6.1
+    ```
+
+  * In Elastic Search, `index` acts as a DB Name and a table and `id` acts like an entry into the table. Idea of type was removed in Elastic Search 7.
 
 ## Project: Implement a `go` web crawler on an car information website
 ### Milestone 1: Single Thread web crawler
@@ -64,3 +80,8 @@
   * A Queued Scheduler set up two queues one for worker and the other for request. When a new worker or request comes it, it will add that worker or request item at the back of the queue. When we need the worker to work on the request, we pop both front item from Request and Worker Queue and feed request item into worker item which is a Channel of request, in `engine/worker`, the worker function is going to fecth and parse the request. Please refer to the diagram below. 
   
     <img src="./Images/QueuedScheduler.png" height=60% width=60%>
+
+### Milestone 3: Save crawler result and display
+  * The following diagram illustrate how `ItemSaver` works in the project architecture.
+
+    <img src="./Images/ItemSaverArchitecture.png" height=60% width=60%>
