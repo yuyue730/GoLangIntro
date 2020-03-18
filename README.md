@@ -53,7 +53,7 @@
   
   * Diagrams of the system
 
-    <img src="./Images/OverviewDiagram.png" height=70% width=70%>
+    <img src="./Images/OverviewDiagram.png" height=60% width=60%>
 
   * Fetcher implemetation details
     * Install Go Text library by entering `go get -u golang.org/x/text` in the command line.
@@ -62,7 +62,7 @@
     * Create a new `determineEncoding` that takes in an response body `io.Reading` and return `encode.Encoding` that includes the decoder format.
   * Parser Implementation Diagram
   
-    <img src="./Images/ParserLogic.png" height=70% width=70%>
+    <img src="./Images/ParserLogic.png" height=60% width=60%>
 
   * Wrap `parser` functionality as a struct in `engine/types`. Create the struct with parse function object and the name of the function. Expose the method to parse contents with Items and more urls in the parse function return.
 
@@ -75,7 +75,7 @@
 
   * A simple Scheduler will create a `goroutine` for each Request and have a single worker to act on all `goroutine`s. Please refer to the diagram below.
 
-    <img src="./Images/SimpleScheduler.png" height=40% width=40%>
+    <img src="./Images/SimpleScheduler.png" height=60% width=60%>
 
   * A Queued Scheduler set up two queues one for worker and the other for request. When a new worker or request comes it, it will add that worker or request item at the back of the queue. When we need the worker to work on the request, we pop both front item from Request and Worker Queue and feed request item into worker item which is a Channel of request, in `engine/worker`, the worker function is going to fecth and parse the request. Please refer to the diagram below. 
   
@@ -90,4 +90,4 @@
   * Create a `save()` function in `persist/itemsaver.go` to save crawled items into Elastic Search system.
   * Architecture for UI Display
 
-    <img src="./Images/UIDataFlow.png" height=50% width=50%>
+    <img src="./Images/UIDataFlow.png" height=60% width=60%>
