@@ -32,7 +32,6 @@ type Request struct {
 
 type Item struct {
 	Payload interface{}
-	Type    string
 	Id      string
 	Url     string
 }

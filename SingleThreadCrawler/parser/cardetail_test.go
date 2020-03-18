@@ -33,9 +33,8 @@ func TestParseCarDetail(t *testing.T) {
 			Acceleration: 8.5,
 			Price:        16.98,
 		},
-		Type: "xcar",
-		Id:   "m49989",
-		Url:  "http://newcar.xcar.com.cn/m49989/",
+		Id:  "m49989",
+		Url: "http://newcar.xcar.com.cn/m49989/",
 	}
 	actualItem := results.Items[0]
 

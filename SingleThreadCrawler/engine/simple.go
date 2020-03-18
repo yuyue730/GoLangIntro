@@ -1,7 +1,6 @@
 package engine
 
 import (
-	"GoLangIntro/SingleThreadCrawler/fetcher"
 	"log"
 )
 
@@ -37,24 +36,4 @@ func (e SimpleEngine) Run(seeds ...Request) {
 			log.Printf("Got new Item %v", item)
 		}
 	}
-}
-
-func worker(r Request) (ParseResult, error) {
-	body, err := fetcher.Fetch(r.Url)
-	if err != nil {
-		log.Printf("Fetcher error fetching url %s: %v", r.Url, err)
-		return ParseResult{}, err
-	}
-
-	return r.Parser.Parse(body, r.Url), nil
-}
-
-var visitedUrls = make(map[string]bool)
-
-func isDuplicate(url string) bool {
-	if visitedUrls[url] {
-		return true
-	}
-	visitedUrls[url] = true
-	return false
 }

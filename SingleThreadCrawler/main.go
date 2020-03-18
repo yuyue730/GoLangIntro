@@ -10,10 +10,14 @@ import (
 func main() {
 	// Please use engine.SimpleEngine{} for single threaded web crawler
 	// e := engine.SimpleEngine{}
+	itemChan, err := persist.ItemSaver("car_profile")
+	if err != nil {
+		panic(err)
+	}
 	e := engine.ConcurrentEngine{
 		Scheduler:   &scheduler.QueuedScheduler{},
 		WorkerCount: 100,
-		ItemChan:    persist.ItemSaver(),
+		ItemChan:    itemChan,
 	}
 	e.Run(
 		engine.Request{

@@ -54,7 +54,6 @@ func ParseCarDetail(contents []byte, url string) engine.ParseResult {
 			{
 				Url:     url,
 				Payload: car,
-				Type:    "xcar",
 				Id:      id,
 			},
 		},

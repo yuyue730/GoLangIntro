@@ -1,14 +1,22 @@
 package persist
 
 import (
+	"GoLangIntro/SingleThreadCrawler/engine"
 	"context"
 	"log"
 
 	"github.com/olivere/elastic/v7"
 )
 
-func ItemSaver() chan interface{} {
-	out := make(chan interface{})
+func ItemSaver(index string) (chan engine.Item, error) {
+	client, err := elastic.NewClient(
+		elastic.SetSniff(false)) // Must turn off sniff in docker mode
+
+	if err != nil {
+		return nil, err
+	}
+
+	out := make(chan engine.Item)
 	go func() {
 		itemCount := 1
 		for {
@@ -16,29 +24,30 @@ func ItemSaver() chan interface{} {
 			log.Printf("Got Items: No. %d, Content %v", itemCount, item)
 			itemCount++
 
-			_, err := save(item)
+			if itemCount > 3000 {
+				break
+			}
+
+			err := save(client, item, index)
 			if err != nil {
 				log.Printf("Item Saver: error saving item %v: %v", err, item)
 			}
 		}
 	}()
-	return out
+	return out, nil
 }
 
-func save(item interface{}) (id string, err error) {
-	client, err := elastic.NewClient(
-		elastic.SetSniff(false)) // Must turn off sniff in docker mode
-
-	if err != nil {
-		return "", err
+func save(client *elastic.Client, item engine.Item, index string) error {
+	indexService := client.Index().Index(index).BodyJson(item)
+	if item.Id != "" {
+		indexService.Id(item.Id)
 	}
 
-	resp, err := client.Index().
-		Index("car_profile").BodyJson(item).Do(context.Background())
+	_, err := indexService.Do(context.Background())
 
 	if err != nil {
-		return "", err
+		return err
 	}
 
-	return resp.Id, nil
+	return nil
 }
