@@ -13,7 +13,7 @@
     <div align="middle">
         <img src="logo.jpg" width="320" height="240">
         <form method="get" action="search">
-            <input type="text" maxlength="100" style="width: 500px; height: 30px;font-size: 16px;margin-top: 10px;" name="q">
+            <input type="text" maxlength="100" style="width: 500px; height: 30px;font-size: 16px;margin-top: 10px;" value="{{.Query}}" name="q">
             <button type="submit" style="height: 30px">Search</button>
         </form>
     </div>
@@ -44,7 +44,12 @@
     </table>
     </div>
 
-    <div>TODO: Next and front page</div>
+    <div align="middle">
+        {{if ge .PrevFrom 0}}
+        <a href="search?q={{.Query}}&from={{.PrevFrom}}">Previous Page</a>
+        {{end}}
+        <a href="search?q={{.Query}}&from={{.NextFrom}}">Next Page</a>
+    </div>
 
 </div>
 </body>
