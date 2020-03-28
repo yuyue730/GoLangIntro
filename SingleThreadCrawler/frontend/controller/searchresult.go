@@ -7,6 +7,7 @@ import (
 	"context"
 	"net/http"
 	"reflect"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -56,8 +57,15 @@ func (h SearchResultHandler) getSearchResult(
 	var result model.SearchResult
 	result.Query = q
 
-	resp, err := h.client.Search("car_profile").Query(elastic.NewQueryStringQuery("")).
-		From(from).Do(context.Background())
+	var resp *elastic.SearchResult
+	service := h.client.Search("car_profile")
+	var err error
+	if q != "" {
+		resp, err = service.Query(elastic.NewQueryStringQuery(
+			rewriteQueryString(q))).From(from).Do(context.Background())
+	} else {
+		resp, err = service.From(from).Do(context.Background())
+	}
 
 	if err != nil {
 		return result, err
@@ -79,7 +87,7 @@ func (h SearchResultHandler) getSearchResult(
 	return result, nil
 }
 
-// func rewriteQueryString(q string) string {
-// 	re := regexp.MustCompile(`([A-Z][a-z]*):`)
-// 	return re.ReplaceAllString(q, "Payload.$1:")
-// }
+func rewriteQueryString(q string) string {
+	re := regexp.MustCompile(`([A-Z][a-z]*):`)
+	return re.ReplaceAllString(q, "Payload.$1:")
+}

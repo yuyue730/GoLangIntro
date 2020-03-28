@@ -45,6 +45,8 @@
     docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.6.1
     ```
 
+  * Delete an index from ElasticSearch docker by executing `curl -XDELETE 'localhost:9200/car_profile'`.
+
   * In Elastic Search, `index` acts as a DB Name and a table and `id` acts like an entry into the table. Idea of type was removed in Elastic Search 7.
 
 ## Project: Implement a `go` web crawler on an car information website
