@@ -1,6 +1,7 @@
 package main
 
 import (
+	"GoLangIntro/DistributedCrawler/config"
 	"GoLangIntro/DistributedCrawler/rpcsupport"
 	"GoLangIntro/SingleThreadCrawler/engine"
 	"GoLangIntro/SingleThreadCrawler/model"
@@ -35,7 +36,7 @@ func TestItemSaver(t *testing.T) {
 	}
 
 	result := ""
-	client.Call("ItemSaverService.Save", item, &result)
+	client.Call(config.ItemSaverRpc, item, &result)
 
 	if err != nil || result != "okay" {
 		t.Errorf("Result: %s; err %s", result, err)

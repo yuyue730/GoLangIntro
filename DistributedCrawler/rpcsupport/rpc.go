@@ -13,6 +13,7 @@ func ServeRpc(host string, service interface{}) error {
 	if err != nil {
 		return err
 	}
+	log.Printf("Listening on %s", host)
 
 	for {
 		conn, err := listener.Accept()
@@ -32,6 +33,5 @@ func NewClient(host string) (*rpc.Client, error) {
 		return nil, err
 	}
 
-	client := jsonrpc.NewClient(conn)
-	return client, nil
+	return jsonrpc.NewClient(conn), nil
 }

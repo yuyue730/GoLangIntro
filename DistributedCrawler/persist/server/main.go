@@ -1,15 +1,18 @@
 package main
 
 import (
+	"GoLangIntro/DistributedCrawler/config"
 	"GoLangIntro/DistributedCrawler/persist"
 	"GoLangIntro/DistributedCrawler/rpcsupport"
+	"fmt"
 	"log"
 
 	"github.com/olivere/elastic/v7"
 )
 
 func main() {
-	log.Fatal(serveRpc(":1234", "car_profile"))
+	log.Fatal(serveRpc(fmt.Sprintf(":%d", config.ItemSaverPort),
+		config.ElasticIndex))
 }
 
 func serveRpc(host, index string) error {
