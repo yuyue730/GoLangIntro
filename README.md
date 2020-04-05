@@ -103,4 +103,7 @@
 
     <img src="./Images/RPCDiagram.png" height=60% width=60%>
 
-  * The first working item is to put `ItemSaver` into a separate service and expose and Rpc call (`ItemSaverService.Save`) to the main engine.
+  * We need put `ItemSaver` into a separate service and expose Rpc call (`ItemSaverService.Save`) to the main engine.
+  * We also need to put `worker` into a separate service and expose Rpc call (`CrawlService.Process`) to the main engine. However, the data communicated between CrawlService and engine needs to be serialize and deserialize. Please refer to the diagram below.
+
+    <img src="./Images/WorkerEngineCommunication.png" height=60% width=60%>
