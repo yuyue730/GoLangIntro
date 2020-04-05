@@ -99,8 +99,8 @@
 
     <img src="./Images/DistributedArchitecture.png" height=60% width=60%>
 
-  * Making workers distributed will resolve rate limit problem, however, this requires instance to run on different physical machines or dockers. We will not implement this part in this project.
-  * We will implement distributed `ItemSaver` in this project.
   * Current data flows under channels under a single instance of crawler. Next, we will use RPC Client and RPC Server to split `ItemSaver` logic into some distributed services. Please refer to the architecture below.
 
     <img src="./Images/RPCDiagram.png" height=60% width=60%>
+
+  * The first working item is to put `ItemSaver` into a separate service and expose and Rpc call (`ItemSaverService.Save`) to the main engine.
