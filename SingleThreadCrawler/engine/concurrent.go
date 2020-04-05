@@ -3,10 +3,11 @@ package engine
 // Struct that defines how concurrent engine works. It takes in a struct under
 // scheduler interface and number of worker needed.
 type ConcurrentEngine struct {
-	Scheduler   Scheduler
-	WorkerCount int
-	ItemsCount  int
-	ItemChan    chan Item
+	Scheduler        Scheduler
+	WorkerCount      int
+	ItemsCount       int
+	ItemChan         chan Item
+	RequestProcessor Processor
 }
 
 type Scheduler interface {
@@ -20,6 +21,8 @@ type ReadyNotifier interface {
 	WorkerReady(chan Request)
 }
 
+type Processor func(Request) (ParseResult, error)
+
 func (e *ConcurrentEngine) Run(seeds ...Request) {
 	// in := make(chan Request) Only need for Simple Scheduler, the in channel
 	// will be declared in `createWorker`
@@ -31,7 +34,7 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 
 	for i := 0; i < e.WorkerCount; i++ {
 		// createWorker(in, out) Only need for Simple Scheduler
-		createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler)
+		e.createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler)
 	}
 
 	for _, r := range seeds {
@@ -79,12 +82,13 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 // Declare in channel Request and feed it to QueuedScheduler struct, in the
 // goroutine, keeps reading from in channel and letring worker perform on the
 // in channel request, feed the result to the out channel
-func createWorker(in chan Request, out chan ParseResult, ready ReadyNotifier) {
+func (e *ConcurrentEngine) createWorker(
+	in chan Request, out chan ParseResult, ready ReadyNotifier) {
 	go func() {
 		for {
 			ready.WorkerReady(in)
 			request := <-in
-			result, err := Worker(request)
+			result, err := e.RequestProcessor(request)
 			if err != nil {
 				continue
 			}
