@@ -1,14 +1,21 @@
 package main
 
 import (
-	"GoLangIntro/DistributedCrawler/config"
 	"GoLangIntro/DistributedCrawler/rpcsupport"
 	"GoLangIntro/DistributedCrawler/worker"
+	"flag"
 	"fmt"
 	"log"
 )
 
+var port = flag.Int("port", 0, "Port for worker server to listen on")
+
 func main() {
+	flag.Parse()
+	if *port == 0 {
+		fmt.Println("Must specify a port")
+		return
+	}
 	log.Fatal(rpcsupport.ServeRpc(fmt.Sprintf(
-		":%d", config.WorkerPort0), worker.CrawlService{}))
+		":%d", *port), worker.CrawlService{}))
 }

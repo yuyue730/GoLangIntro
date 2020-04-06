@@ -4,14 +4,23 @@ import (
 	"GoLangIntro/DistributedCrawler/config"
 	"GoLangIntro/DistributedCrawler/persist"
 	"GoLangIntro/DistributedCrawler/rpcsupport"
+	"flag"
 	"fmt"
 	"log"
 
 	"github.com/olivere/elastic/v7"
 )
 
+var port = flag.Int("port", 0, "Port for worker server to listen on")
+
 func main() {
-	log.Fatal(serveRpc(fmt.Sprintf(":%d", config.ItemSaverPort),
+	flag.Parse()
+	if *port == 0 {
+		fmt.Println("Must specify a port")
+		return
+	}
+
+	log.Fatal(serveRpc(fmt.Sprintf(":%d", *port),
 		config.ElasticIndex))
 }
 
