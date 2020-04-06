@@ -1,5 +1,11 @@
 # Introduction into Go Programming Language
 
+## Project Summary
+  * Implemented a web crawler that fetches different cars’ data from a car information website
+  * Store structured cars’ data into `ElasticSearch` that runs as a web service in a Docker
+  * Implemented a simple webpage that read data from `ElasticSearch` and display in a data grid
+  * Used Rpc for data communication among engine instance, `ItemSaver` instance, and distributed `Worker`’s instances
+
 ## Installation and Configuration
 
   * Official website: https://golang.org/. And download the installation package from the website and install.
