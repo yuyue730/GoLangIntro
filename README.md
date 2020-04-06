@@ -107,3 +107,10 @@
   * We also need to put `worker` into a separate service and expose Rpc call (`CrawlService.Process`) to the main engine. However, the data communicated between CrawlService and engine needs to be serialize and deserialize. Please refer to the diagram below.
 
     <img src="./Images/WorkerEngineCommunication.png" height=60% width=60%>
+
+  * To make `worker` distributed, we implement a `createClientPool()` function that make an array of rpc.Client of the working (each work holds a host identical to an existing worker instance). We feed these rpc.Client one by one into a Channel of `*rpc.Client` in a goroutine. Worker client side `CreateProcessor` method listens to this Channel and picks up a `*rpc.Client` whenever possible and pass data to one worker server instance through rpc.
+  * To run the distributed web crawler. First go to `DistributedCrawler` directory by running in `cd DistributedCrawler`
+    * Start an `ItemSaver` server by running `go run persist/server/itemsaver.go --port=1234`.
+    * Start two `Worker` server instances by running `go run worker/server/worker.go --port=9000` and `go run worker/server/worker.go --port=9001`.
+    * Start the engine instance by running `go run main.go --itemsaver_host=":1234" --worker_hosts=":9000,:9001"`.
+    * Both `Worker` instances should be able to fetch data from xcar website and engine can receive these data and pass `CarDetail` information to `ItemSaver` to store into `ElasticSearch`.
